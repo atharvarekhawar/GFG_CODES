@@ -13,39 +13,37 @@ class Solution {
     *   V: number of vertices
     */
     vector<int> bellman_ford(int V, vector<vector<int>>& edges, int S) {
-        
-        int n=V;
-        int m=edges.size();
-        vector<int>dist(n,1e8);
+        vector<int>dist(V,1e8);
         dist[S]=0;
         
-    for (int i = 0; i <= n; i++) {
-      for (int j = 0; j < m; j++) {
-        int u = edges[j][0];
-        int v = edges[j][1];
-        int weight = edges[j][2];
-
-        if (dist[u] != 1e8 && dist[u] + weight < dist[v]) {
-          dist[v] = dist[u] + weight;
+        for(int i=0;i<V-1;++i){
+          for(auto temp:edges){
+              
+              int from = temp[0];
+              int to = temp[1];
+              int weight = temp[2];
+              
+              if(dist[from]!=1e8 && dist[from] + weight < dist[to]){
+                  dist[to] = dist[from] + weight;
+              }
+          }
         }
-      }
+        
+        for(int i=0;i<1;++i){
+            for(auto temp:edges){
+              
+              int from = temp[0];
+              int to = temp[1];
+              int weight = temp[2];
+              
+              if(dist[from]!=1e8 && dist[from] + weight < dist[to]){
+                  return {-1};
+              }
+          }
+        }
+        
+        return dist;
     }
-    
-    for (int j = 0; j < m; j++) {
-        int u = edges[j][0];
-        int v = edges[j][1];
-        int weight = edges[j][2];
-
-        if (dist[u] != 1e8 && dist[u] + weight < dist[v]) {
-         vector<int>ans(1,-1);
-         return ans;
-        }
-      }
-      
-      return dist;
-    
-    
-   }
 };
 
 
